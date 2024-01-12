@@ -1,0 +1,141 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  fullName: String!
+  email: String!
+}
+
+type Message {
+  message: String
+  statusCode: Int
+}
+
+type Authentication {
+  fullName: String!
+  email: String!
+  auth_token: String
+}
+
+type Data {
+  message: String
+  statusCode: Int
+  user: Authentication
+}
+
+type Tasks {
+  _id: String!
+  title: String!
+  description: String!
+  type: String!
+  userId: String!
+  urls: [FileObject!]!
+}
+
+type FileObject {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  path: String!
+}
+
+type TaskData {
+  message: String
+  statusCode: Int
+  tasks: Tasks
+}
+
+type PaginatedResponse {
+  total: Int!
+  data: [Tasks!]!
+}
+
+type Query {
+  getTaskList: [Tasks!]!
+  getOneTasks(_id: String!): Tasks!
+  paginatedTasks(pageinate: PaginationtInput!): PaginatedResponse!
+  findAll: [User!]!
+  findOneUser(userDetail: UserFind!): User!
+  forgotPassword(forgotPass: Email!): Message!
+  getListInPagination(pageinate: PaginationtInput!): PaginatedResponse!
+  resendAccountVerificationEmail(resendVerificationEmail: Email!): Message!
+  greetings: String!
+}
+
+input PaginationtInput {
+  page: Int!
+  limit: Int!
+}
+
+input UserFind {
+  fullName: String
+  email: String
+  _id: String
+}
+
+input Email {
+  email: String!
+}
+
+type Mutation {
+  addTasks(file: [Upload!], info: CreateTask!): TaskData!
+  updateTasks(file: [Upload!], info: UpdateTask!): TaskData!
+  deleteTask(_id: String!): Message!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  resetPassword(resetPassword: ResetPasswords!): Message!
+  updatePassword(updatePassword: UpdatePasswords!): Message!
+  removeUser: Message!
+  signUpUser(signUpUser: CreateAuthInput!): Message!
+  signInUser(signInUser: LoginAuth!): Data!
+  googleLoginCallback(accessToken: String!): String!
+  facebookLoginCallback(accessToken: String!): String!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input CreateTask {
+  title: String!
+  category: String!
+  description: String
+}
+
+input UpdateTask {
+  _id: String!
+  title: String
+  category: String!
+  description: String
+}
+
+input UpdateUserInput {
+  fullName: String! = ""
+  firstName: String! = ""
+  lastName: String! = ""
+  mobileNumber: String! = ""
+  age: Int
+}
+
+input ResetPasswords {
+  email: String!
+  newPassword: String!
+  confirmPassword: String!
+  token: Int!
+}
+
+input UpdatePasswords {
+  oldPassword: String!
+  newPassword: String!
+  confirmPassword: String!
+}
+
+input CreateAuthInput {
+  email: String!
+  password: String!
+  fullName: String!
+}
+
+input LoginAuth {
+  email: String = ""
+  password: String!
+}
