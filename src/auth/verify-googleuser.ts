@@ -41,6 +41,24 @@ console.log(accessToken);
       return null;
     }
   }
+  static async refreshToken(refreshToken: string): Promise<any | null> {
+    try {
+      const response = await axios.post('https://www.googleapis.com/oauth2/v4/token', null, {
+        params: {
+          refresh_token: refreshToken,
+          client_id: 'your-client-id',
+          client_secret: 'your-client-secret',
+          grant_type: 'refresh_token'
+        }
+      });
+
+      const { data } = response;
+      return data;
+    } catch (error) {
+      console.error('Error refreshing access token:', error.message);
+      return null;
+    }
+  }
 }
 
 
